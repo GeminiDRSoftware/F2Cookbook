@@ -1,0 +1,38 @@
+# Attributes of observed targets for the 2012-Sep observing run.
+#   type:     type of target (used for SQL query template)
+#   outFile:  name of output file of sky-subtracted, combined spectrum
+#   date:     observation date of interest
+#   darkFile: name of the applicable MasterCal dark image for each grism
+#   arcFile:  name of the applicable calibrated arc lamp for each grism
+#   skyrange: Time interval in sec over which complementing sky nods are matched
+#
+HD 13517:
+    type:      std
+    outFile:   HD13517
+    date:      '2014-11-07'
+    darkFile:
+        JH:    MCdark_5
+    arcFile:
+        JH:    wAr_Nov07_235
+    skyrange:  INDEF
+
+HD 30526:
+    type:      std
+    outFile:   HD30526
+    date:      '2014-11-07'
+    darkFile:
+        JH:    MCdark_5
+    arcFile:
+        JH:    wAr_Nov07_263
+    skyrange:  INDEF
+
+HD 36636:
+    type:      std
+    outFile:   HD36636
+    date:      '2014-12-04'
+    darkFile:
+        JH:    MCdark_5
+    arcFile:
+        JH:    wAr_Dec04_075
+    skyrange:  90.
+...

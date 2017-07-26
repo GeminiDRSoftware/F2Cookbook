@@ -1,0 +1,59 @@
+# Instrument configurations for the long-slit tutorial.
+#   use_me:    Flag for inclusion (1) or exclusion (0) from processing
+#   ObsType:   Observation type (DARK|FLAT|ARC|OBJECT)
+#   ReadMode:  Readout mode (Bright|Medium|Dark')
+#   N_Reads:   Number of CDS reads (1|4|8)
+#   Filter:    Name of filter in use
+#   Disperser: Name of grism in use
+#   AperMask:  Name of slitmask in use
+#   Texp_flat: Exposure duration (integer sec) of flat-field
+#   Texp_sci:  Exposure duration (integer sec) of science target
+#   Object:    Target name
+#   DateObs:   Calendar date (range) of observation
+Y:
+    ObsType:   FLAT
+    ReadMode:  Bright
+    N_Reads:   1
+    Filter:    'Y_%'
+    Disperser: Open
+    AperMask:  None
+    Texp_flat: 60
+    Texp_sci:  120
+    Object:    'WISE 0350%'
+    DateObs:   '2013-10-20:2013-11-30'
+
+J:
+    ObsType:   FLAT
+    ReadMode:  Bright
+    N_Reads:   1
+    Filter:    'J_%'
+    Disperser: Open
+    AperMask:  None
+    Texp_flat: 60
+    Texp_sci:  60
+    Object:    'WISE 0350%'
+    DateObs:   '2013-10-20:2013-11-30'
+
+H:
+    ObsType:   FLAT
+    ReadMode:  Bright
+    N_Reads:   1
+    Filter:    'H_%'
+    Disperser: Open
+    AperMask:  None
+    Texp_flat: 3
+    Texp_sci:  15
+    Object:    'WISE 0350%'
+    DateObs:   '2013-10-20:2013-11-30'
+
+Ks:
+    ObsType:   FLAT
+    ReadMode:  Bright
+    N_Reads:   1
+    Filter:    'Ks_%'
+    Texp_flat: 8
+    Texp_sci:  15
+    Object:    'WISE 0350%'
+    DateObs:   '2013-10-20:2013-11-30'
+
+...

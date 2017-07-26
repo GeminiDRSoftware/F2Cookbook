@@ -1,0 +1,14 @@
+# Attributes of arc lamp exposures for F2 longslit.
+#   <darksubtractedFileName>:  <processedFileName>
+#
+# Mapping to line lists
+#   <lampName>: <linelist>.txt
+#
+arcs:
+    dpS20141107S0235: Ar_Nov07_235
+    dpS20141107S0263: Ar_Nov07_263
+    dpS20141204S0075: Ar_Dec04_075
+
+arcLineLists:
+    Ar:   ./Ar_NIR_lowres.txt
+...

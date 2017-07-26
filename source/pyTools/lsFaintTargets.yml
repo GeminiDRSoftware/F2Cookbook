@@ -1,0 +1,40 @@
+# Attributes of WISE_0350-56 observing epochs.
+#   type:     type of target (used for SQL query template)
+#   outFile:  name of output file of sky-subtracted, combined spectrum
+#   date:     observation date of interest
+#   darkFile: name of the applicable MasterCal dark image for each grism
+#   arcFile:  name of the applicable calibrated arc lamp for each grism
+#   skyrange: Time interval (s) over which complementing sky nods are matched
+#   trace:    name of template spectrogram for aperture trace 
+#   telluric: Name of matching telluric standard
+
+ep1:
+    type:     sciSpec
+    outFile:  ' WISE_0350-56_ep1'
+    date:     '2014-11-07'
+    MCdark:   MCdark_300
+    arcFile:  wAr_Nov07_235
+    skyrange: INDEF
+    trace:    'WISE_0350-56_ep2'
+    telluric: xtfHD13517
+
+ep2:
+    type:     sciSpec
+    outFile: ' WISE_0350-56_ep2'
+    date:     '2014-11-07'
+    MCdark:   MCdark_300
+    arcFile:  wAr_Nov07_263
+    skyrange: INDEF
+    trace:    ''
+    telluric: xtfHD30526
+
+ep3:
+    type:     sciSpec
+    outFile: ' WISE_0350-56_ep3'
+    date:     '2014-12-04'
+    MCdark:   MCdark_300
+    arcFile:  wAr_Dec04_075
+    skyrange: INDEF
+    trace:    'WISE_0350-56_ep2'
+    telluric: xtfHD36636
+...
