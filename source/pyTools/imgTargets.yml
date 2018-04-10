@@ -1,0 +1,13 @@
+Y0413:
+    Filter: Y
+
+J0413:
+    Filter: J
+
+H0413:
+    Filter: H
+    groupsize: 9
+
+K0413:
+    Filter: Ks
+    groupsize: 9

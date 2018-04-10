@@ -1,0 +1,38 @@
+# Attributes of observed targets for the 2012-Sep observing run.
+#
+HD13517:
+    Object:    HD 13517
+    Date:      '2014-11-07'
+    arc:       arc_S20141107S0235
+
+HD30526:
+    Object:    HD 30526
+    Date:      '2014-11-07'
+    arc:       arc_S20141107S0263
+
+HD36636:
+    Object:    HD 36636
+    Date:      '2014-12-04'
+    arc:       arc_S20141204S0075
+    nsreduce:
+        skyrange:  90
+
+epoch1:
+    first:     S20141107S0207
+    last:      S20141107S0234
+    arc:       arc_S20141107S0235
+    telluric:  HD13517
+
+epoch2:
+    ObsID:     GS-2014B-Q-17-62
+    first:     S20141107S0239
+    arc:       arc_S20141107S0263
+    telluric:  HD30526
+    nsextract:
+        trace:  HD30526
+
+epoch3:
+    Date:      '2014-12-04'
+    arc:       arc_S20141204S0075
+    telluric:  HD36636
+...
