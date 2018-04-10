@@ -1,432 +1,97 @@
 # IRAF task parameters and initial values
 # <irafTaskDictName>:
 #     <parameterName>: <parameterValue>
-f2cutPars:
-    outimages: ''
-    outprefix: c
-    fl_vardq: 'yes'
-    gradimage: ''
-    outslitim: slits.fits
-    minsep: default
-    edgediff: 2.
-    refimage: ''
-    database: ''
+f2cut:
     logfile: f2cutLog.txt
-    verbose: 'yes'
 
-f2prepPars:
+f2prepare:
     rawpath: ./raw
-    outimages: ''
     outprefix: p
-    bpm: ''
-    fl_vardq: 'yes'
-    fl_correct: 'yes'
-    fl_saturated: 'yes'
-    fl_nonlinear: 'yes'
-    arraytable: f2$data/f2array.fits
     fl_addmdf: 'no'
-    key_mdf: MASKNAME
-    mdffile: ''
-    mdfdir: f2$data/
-    fl_dark_mdf: 'no'
     logfile: f2prepLog.txt
-    verbose: 'yes'
 
-gemarithPars:
-    sci_ext: SCI
-    var_ext: VAR
-    dq_ext: DQ
-    mdf_ext: MDF
+gemarith:
     fl_vardq: 'yes'
-    dims: default
-    intype: double
-    outtype: default
-    refim: default
-    rangecheck: 'yes'
-    verbose: 'yes'
-    lastout: ''
     logfile: gemarithLog.txt
-    glogpars: glogpars
 
-gemcombinePars: 
-    title: ''
-    combine: average
-    reject: avsigclip
-    offsets: none
-    masktype: none
-    maskvalue: 0.
-    scale: none
-    zero: none
-    weight: none
-    statsec: '[*,*]'
-    expname: EXPTIME
-    lthreshold: INDEF
-    hthreshold: INDEF
-    nlow: 1
-    nhigh: 1
-    nkeep: 1
-    mclip: 'yes'
-    lsigma: 3.
-    hsigma: 3.
-    key_ron: RDNOISE
-    key_gain: GAIN
-    ron: 11.7
-    gain: 4.44
-    snoise: 0.0
-    sigscale: 0.1
-    pclip: -0.5
-    grow: 0.
-    bpmfile: ''
-    nrejfile: ''
-    sci_ext: SCI
-    var_ext: VAR
-    dq_ext: DQ
+gemcombine: 
     fl_vardq: 'yes'
     logfile: gemcombLog.txt
-    fl_dqprop: 'no'
-    verbose: 'yes'
 
-nscombinePars:
-    tolerance: 0.5
-    output_suffix: ''
-    bpm: ''
-    dispaxis: 2
-    pixscale: 1.
-    fl_cross: 'yes'
+nscombine:
     fl_keepshift: 'yes'
-    fl_shiftint: 'no'
-    interptype: linear
-    boundary: nearest
-    constant: 0.
-    combtype: average
-    rejtype: sigclip
-    masktype: goodvalue
-    maskvalue: 0.
-    statsec: '[*,*]'
-    scale: none
-    zero: none
-    weight: none
-    lthreshold: INDEF
-    hthreshold: INDEF
-    nlow: 1
-    nhigh: 1
-    nkeep: 0
-    mclip: 'yes'
-    lsigma: 5.
-    hsigma: 5.
-    ron: 11.7
-    gain: 4.44
-    snoise: 0.0
-    sigscale: 0.1
-    pclip: -0.5
-    grow: 0.
-    nrejfile: ''
-    fl_vardq: 'yes'
-    fl_inter: 'no'
     logfile: nscombLog.txt
-    verbose: 'yes'
-    debug: 'no'
-    force: 'no'
 
-nsextrPars:
-    outspectra: ''
-    outprefix: x
-    dispaxis: 2
+nsextract:
     database: 'database'
     line: 450
     nsum: 20
-    ylevel: 0.1
-    upper: 10
-    lower: -10
-    background: average
-    fl_vardq: 'yes'
-    fl_addvar: 'yes'
-    fl_skylines: 'yes'
     fl_inter: 'yes'
     fl_apall: 'yes'
     fl_trace: 'yes'
-    aptable: gnirs$data/apertures.fits
-    fl_usetabap: 'no'
-    fl_flipped: 'yes'
-    fl_project: 'no'
-    fl_findneg: 'yes'
-    bgsample: '*'
-    trace: ''
     tr_nsum: 20
     tr_step: 20
     tr_nlost: 3
     tr_function: spline3
     tr_order: 5
-    tr_sample: '*'
-    tr_naver: 1
-    tr_niter: 0
-    tr_lowrej: 3.
-    tr_highrej: 3.
-    tr_grow: 0.
-    weights: variance
+    trace: ''
     logfile: nsextrLog.txt
-    verbose: 'yes'
 
-nsfitcrdPars:
-    outspectra: ''
-    outprefix: f
-    sdisttransf: ''
-    dispaxis: 2
+nsfitcoords:
     database: 'database'
     fl_inter: 'yes'
-    fl_align: 'no'
-    function: chebyshev
-    lxorder: 3
-    lyorder: 4
-    sxorder: 2
-    syorder: 2
-    pixscale: 1.
+    lxorder: 4
+    lyorder: 5
     logfile: nsfitcrdLog.txt
-    verbose: 'yes'
-    debug: 'no'
-    force: 'no'
 
-nsflatPars:
-    darks: ''
-    darkfile: ''
-    fl_corner: 'no'
-    fl_save_darks: 'no'
-    flattitle: default
-    bpmtitle: default
-    bpmfile: f2_ls_bpm.fits
-    process: auto
-    statsec: default
-    fitsec: default
-    thr_flo: 0.35
-    thr_fup: 1.25
-    thr_dlo: -20.
-    thr_dup: 100.
+nsflat:
     fl_inter: 'yes'
-    fl_range: 'no'
-    fl_fixbad: 'yes'
-    fixvalue: 1.
-    function: spline3
-    order: 20
-    normstat: midpt
-    combtype: default
-    rejtype: ccdclip
-    masktype: goodvalue
-    maskvalue: 0.
-    scale: none
-    zero: none
-    weight: none
-    lthreshold: INDEF
-    hthreshold: INDEF
-    nlow: 1
-    nhigh: 1
-    nkeep: 0
-    mclip: 'yes'
-    lsigma: 3.
-    hsigma: 3.
-    snoise: 0.0
-    sigscale: 0.1
-    pclip: -0.5
-    grow: 0.
-    box_width: 20
-    box_length: 1
-    trace: ''
-    traceproc: none
-    threshold: 100
-    aptable: gnirs$data/apertures.fits
+    order: -1
     database: ''
-    apsum: 10
-    tr_step: 10
-    tr_nlost: 3
-    tr_function: legendre
-    tr_order: 5
-    tr_naver: 1
-    tr_niter: 0
-    tr_lowrej: 3.
-    tr_highrej: 3.
-    tr_grow: 0.
-    ap_lower: -30
-    ap_upper: 30
-    fl_vardq: 'yes'
     logfile: nsflatLog.txt
-    verbose: 'yes'
 
-nsheadPars:
+nsheaders:
     instrument: f2
-    directory: gnirs$data
     logfile: nsheadLog.txt
-    verbose: 'no'
 
-nsreducePars:
-    outprefix: r
+nsreduce:
     fl_cut: 'yes'
-    section: ''
-    fl_corner: 'yes'
-    fl_process_cut: 'yes'
-    gradimage: ''
-    outslitim: slits.fits
-    edgediff: 2.
-    refimage: ''
-    database: ''
-    fl_nsappwave: 'yes'
-    nsappwavedb: gnirs$data/nsappwave.fits
-    crval: INDEF
-    cdelt: INDEF
     fl_dark: 'no'
-    darkimage: ''
-    fl_save_dark: 'no'
     fl_sky: 'no'
-    skyimages: ''
-    skysection: ''
-    combtype: median
-    rejtype: avsigclip
-    masktype: goodvalue
-    maskvalue: 0.
-    scale: none
-    zero: median
-    weight: none
-    statsec: '[*,*]'
-    lthreshold: INDEF
-    hthreshold: INDEF
-    nlow: 1
-    nhigh: 1
-    nkeep: 0
-    mclip: 'yes'
-    lsigma: 3.
-    hsigma: 3.
-    snoise: 0.0
-    sigscale: 0.1
-    pclip: -0.5
-    grow: 0.
+    fl_flat: 'yes'
     skyrange: INDEF
     nodsize: 3.
-    fl_flat: 'yes'
-    flatimage: MCflat
-    flatmin: 0.
-    fl_vardq: 'yes'
     logfile: nsreduceLog.txt
-    verbose: 'yes'
-    debug: 'no'
-    force: 'no'
 
-nssdistPars:
-    outsuffix: _sdist
-    pixscale: 1.
-    dispaxis: 1
-    database: ''
-    firstcoord: 0.
-    coordlist: ''
-    aptable: gnirs$data/apertures.fits
-    fl_inter: 'no'
-    fl_dbwrite: 'yes'
-    section: default
-    nsum: 30
-    ftype: emission
-    fwidth: 10.
-    cradius: 10.
-    threshold: 50.
-    minsep: 10.
-    match: -6.
-    function: chebyshev
-    order: 2
-    sample: ''
-    niterate: 3
-    low_reject: 5.
-    high_reject: 5.
-    grow: 0.
-    refit: 'yes'
-    step: 10
-    trace: 'no'
-    nlost: 10
-    aiddebug: ''
+nssdist:
     logfile: nssdistLog.txt
-    verbose: 'yes'
-    debug: 'no'
-    force: 'no'
 
-nstransPars:
-    outspectra: ''
-    outprefix: t
-    dispaxis: 2
+nstransform:
     database: 'database'
-    fl_stripe: 'no'
-    interptype: poly3
-    xlog: 'no'
-    ylog: 'no'
-    pixscale: 1.
     logfile: nstransLog.txt
-    verbose: 'yes'
-    debug: 'no'
 
-nstelluricPars:
-    cal: 
-    extract: ''
-    outspectra: ''
-    outprefix: a
-    dispaxis: 2
-    fitfunction: spline3
-    fitorder: 32
-    fl_xcorr: 'yes'
-    fl_tweakrms: 'yes'
-    sample: '*'
+nstelluric:
     threshold: 0.01
-    lag: 20
-    shift: 0.
-    scale: 1.
-    dshift: 0.5
-    dscale: 0.1
-    low_reject: 1.5
-    high_reject: 3.
-    niterate: 2
-    grow: 1.
-    ifuextn: 12
+    fl_xcorr: 'no'
     fl_inter: 'yes'
     database: 'database'
     logfile: nstelluricLog.txt
-    verbose: 'yes'
 
-nswavePars:
-    outspectra: ''
-    outprefix: w
-    crval: INDEF
-    cdelt: INDEF
-    crpix: INDEF
-    dispaxis: 2
+nswavelength:
     database: 'database'
     coordlist: gnirs$data/lowresargon.dat
     fl_inter: 'yes'
-    nsappwavedb: gnirs$data/nsappwave.fits
-    fl_median: 'yes'
-    sdist: ''
-    sdorder: 4
-    xorder: 2
-    yorder: 2
-    aptable: gnirs$data/apertures.fits
-    section: default
     nsum: 20
-    ftype: emission
-    fwidth: 4.
-    cradius: 5.
-    threshold: 100.
-    minsep: 2.
-    match: -6.
     function: chebyshev
-    order: 4
-    sample: '*'
-    niterate: 10
-    low_reject: 3.
-    high_reject: 3.
-    grow: 0.
+    order: 5
     refit: 'yes'
     step: 20
-    trace: 'no'
-    nlost: 3
-    fl_overwrite: 'yes'
-    aiddebug: ''
-    fmatch: 0.2
-    nfound: 6
-    sigma: 0.05
-    rms: 0.1
     logfile: nswaveLog.txt
-    verbose: 'yes'
-    debug: 'no'
+
+continuum:
+    type: fit
+    function: spline3
+    order: 5
+    low_reject: 2
+    high_reject: 2
 ...
