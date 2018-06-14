@@ -176,12 +176,12 @@ The following types of FLAMINGOS-2 observations are routinely obtained, dependin
    :header: "Type", "Frequency", "Description"
    :widths: 20, 30, 50
 
-   Dark, dozens per night, Sequence of finite-duration exposures with the shutter closed.  Duration of darks should match the duration of science exposures.
-   Flat-field, several nightly per filter, Sequence of exposures of the twilight sky (typically for imaging) or with the :term:`GCAL` flat-field lamp (for spectroscopy). They are combined and normalized to apply the pixel-level sensitivity correction.  
+   Dark, several per week, Sequence of finite-duration exposures with the shutter closed.  Duration of darks must match the duration of science exposures and be taken with the same readout mode.
+   Flat-field, several monthly per filter, Sequence of exposures of the :term:`GCAL` flat-field lamp. They are combined and normalized to apply the pixel-level sensitivity correction.
    Comparison Arc, one or more per night per slit/grating combination, Exposures of the Argon comparison arc used to derive geometric rectification and wavelength calibration.
-   Image, one or more per filter per target field, **Science image** obtained with ``ObsMode = imaging``. May also be obtained for target field acquisition. 
+   Image, one or more per filter per target field, **Science image** obtained with ``ObsMode = imaging``. May also be obtained for target field acquisition. Usually these are dithered to allow background subtraction.
    *Acquisition image*, one or more per target field, Short-duration image obtained through a custom :term:`Slit-mask` (``ObsMode = acq``). Used to determine offsets from targets to slits; not used for data reductions. 
-   Long-slit spectrum, one or more per target position, **Science spectrum** obtained with a facility longslit (``MASKNAME = <X>pix-slit``). 
+   Long-slit spectrum, one or more per target position, **Science spectrum** obtained with a facility longslit (``MASKNAME = <X>pix-slit``).  Usually these are dithered along the slit to allow subtraction of bright sky lines.
    MOS spectrum, one or more per target position, **Science spectra** obtained with a custom Slit-mask (``MASKNAME`` = <mask>); one spectrum per slit including field stars. Mask names include the observing program ID. 
 
 .. _data-packaging:
