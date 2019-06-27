@@ -41,8 +41,8 @@ def obsLog(args):
 
     colnames = ['File'] + [kw[1] for kw in KW_MAP]
     table_data = dict([(c, []) for c in colnames])
-    fileList = [f for f in os.listdir('.') if f.startswith('S')
-                and f.endswith('.fits') and len(f)==19]
+    fileList = sorted([f for f in os.listdir('.') if f.startswith('S')
+                      and f.endswith('.fits') and len(f)==19])
     for fname in fileList:
         hd0 = fits.open(fname)[0].header
         for kw, c in KW_MAP:
