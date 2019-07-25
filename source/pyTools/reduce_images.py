@@ -202,7 +202,7 @@ def selectTargets(obslog):
         sciFiles = obslog.file_query(merge_dicts(qd, pars))
         t, filt = obslog[sciFiles[0]]['Texp', 'Filter']
         file_dict = {'dark': pars.get('dark', 'MCdark_'+str(int(t))),
-                     'bpm': pars.get('bpm', 'MCbpm_'+filt),
+                     'bpm': pars.get('bpm', 'MCbpm_'+filt+'.pl'),
                      'flat': pars.get('flat', 'MCflat_'+filt),
                      'sky': pars.get('sky', 'self')}
         try:
