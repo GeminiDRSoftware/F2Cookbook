@@ -266,7 +266,7 @@ def reduceScience(sci_dict):
 
         # Flatfield
         redPars.update({'outprefix': 'f', 'fl_sky': 'no',
-                        'flatimage': flatFile})
+                        'fl_flat': 'yes', 'flatimage': flatFile})
         niri.nireduce(filelist('dp', sciFiles), **redPars)
         imcoadd_infiles = filelist('fdp', sciFiles)
 
