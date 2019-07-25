@@ -259,10 +259,6 @@ def reduceScience(sci_dict):
             # Make the sky (also leaves dark-subtracted files on disk)
             skyFile = outfile+'_sky'
             reduceSkies({skyFile: file_dict})
-        else:
-            for f in skyFiles:
-                f2.f2prepare(f, **prepPars)
-                gemtools.gemarith('p'+f, '-', darkFile, 'dp'+f, **arithPars)
 
         # Flatfield
         redPars.update({'outprefix': 'f', 'fl_sky': 'no',
