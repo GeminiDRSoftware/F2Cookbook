@@ -99,6 +99,17 @@ def apply_fitcoords(infile, telFile, database):
 #----------------------------------------------------------------------
 
 #----------------------- DARKS: See Section 4.3 -----------------------
+def nightlyDarks(obslog):
+    dark_dict = {}
+    qd = {'ObsType': 'DARK'}
+    configs = unique(obslog.query(qd)['Date', 'Texp'])
+    for (date, t) in configs:
+        darkFiles = obslog.file_query(merge_dicts(qd, {'Date': date,
+                                                       'Texp': t}))
+        outfile = 'MCdark_'+date.replace('-','')+'_'+str(int(t))
+        dark_dict[outfile] = {'input': darkFiles}
+    return dark_dict
+
 def selectDarks(obslog):
     dark_dict = {}
     qd = {'ObsType': 'DARK'}
