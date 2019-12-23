@@ -4,6 +4,15 @@
 F2 Imaging Tutorial
 ===================
 
+.. note::
+
+   We strongly recommend that you reduce your F2 imaging data with
+   DRAGONS (Data Reduction for Astronomy from Gemini Observatory North
+   and South) rather than PyRAF. DRAGONS is simpler to use and provides
+   genuine pipeline capabilities. A tutorial is available at
+   https://dragons.readthedocs.io/projects/f2img-drtutorial/en/stable/
+
+
 The recipe described here provides a recommended, **but not unique**
 path for processing your FLAMINGOS-2 science data.
 
