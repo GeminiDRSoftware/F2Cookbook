@@ -262,6 +262,8 @@ code by, for example, creating the dictionaries directly.
 Understanding python dictionaries will help you to get the most out of
 the scripts.
 
+.. _python_dicts:
+
 Python dictionaries
 ^^^^^^^^^^^^^^^^^^^
 
