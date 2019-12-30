@@ -52,6 +52,7 @@ def obsLog(args):
     # Tweak some data
     table_data['Filter'] = [f.split('_')[0] for f in table_data['Filter']]
     table_data['Disperser'] = [f.split('_')[0] for f in table_data['Disperser']]
+    table_data['Date'] = [f[1:9] for f in table_data['File']]
 
     t = Table(names=colnames, data=[table_data[c] for c in colnames])
     t['use_me'] = [True] * len(t)
