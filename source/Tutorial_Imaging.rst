@@ -237,7 +237,8 @@ all raw dark frames. The exposure time is coerced to an integer
 because PyRAF has issues if there is a ``.`` in the name of a file.
 
 There is also a function, ``nightlyDarks()``, that will separate the
-darks by observation date as well as exposure time, which you might
+darks by observation date (actually, the first 8 digits from the
+original filename) as well as exposure time, which you might
 wish to do for your data (e.g., if you have observations, and darks,
 widely separated in time). This produces filenames like
 ``MCdark_20180101_5.fits``, and you will have to adapt the subsequent
