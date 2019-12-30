@@ -308,7 +308,7 @@ You can make the required python dictionaries as follows:
    dark_dict = {'MCdark': {'input': raw_darks}}
    raw_flats = ['S20180101S{:04d}'.format(i) for i in range(11, 21)]
    flat_dict = {'MCflat': {'dark': 'MCdark',
-                           'bpm': 'MCbpm.pl',
+                           'bpm': 'MCbpm',
                            'input': raw_flats}}
    arc_dict = {'MCarc': {'dark': 'MCdark',
                          'bpm': 'MCbpm',
@@ -323,6 +323,29 @@ more than the last frame to be included.
 One final piece of good-to-know python information is that a statement
 is assumed to carry onto the next line of the file if any parentheses,
 brackets, or braces have not been closed.
+
+Alternatively, you can write your reduction dictionaries in YAML and
+read them in using the syntax:
+
+.. code-block:: python
+
+   arc_dict = yaml.load(open('arc.yml', 'r'))
+
+
+The YAML syntax for `arc_dict` in the above example should be written as
+shown below. Note that the input files must be presented as a list, one
+per line, preceded by a hyphen, even if there is only one input file, as
+in this example.
+
+.. code-block:: yaml
+
+   MCarc:
+       dark:   MCdark
+       flat:   MCflat
+       bpm:    MCbpm
+       input:
+       - S20180101S0021
+
 
 Task parameter files
 ++++++++++++++++++++
