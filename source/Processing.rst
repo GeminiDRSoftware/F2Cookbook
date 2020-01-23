@@ -262,7 +262,7 @@ code by, for example, creating the dictionaries directly.
 Understanding python dictionaries will help you to get the most out of
 the scripts.
 
-.. _python_dicts:
+.. _python-dicts:
 
 Python dictionaries
 ^^^^^^^^^^^^^^^^^^^
@@ -483,14 +483,14 @@ definition at the top of the python script.
    Disperser, ``GRISM``, Name of dispersing element
    ObsID, ``OBSID``, Observation ID (e.g. GS-2018A-Q-1)
    Texp, ``EXPTIME``, Exposure time (in seconds)
-   Date, ``DATE-OBS``, UT Date of observation start (YYYY-MM-DD)
+   Date, , Date of observation start (YYYYMMDD)
    Time, ``TIME-OBS``, UT Time of observation start (HH:MM:SS.S)
    RA, ``RA``, Right Ascension of target (deg)
    Dec, ``DEC``, Declination of target (deg)
    RA Offset, ``RAOFFSET``, Offset in Right Ascension from target (arcsec)
    Dec Offset, ``DECOFFSE``, Offset in Declination from target (arcsec)
-   ObsType, ``OBSTYPE``, Type of observation: (``arc|cal|dark|flat|mos|mask|pinhole|ronchi|object``)
-   ObsClass, ``OBSCLASS``, Class of observation: (``acq|acqCal|dayCal|partnerCal|progCal|science``)
+   ObsType, ``OBSTYPE``, Type of observation (e.g. ``arc|flat|object``)
+   ObsClass, ``OBSCLASS``, Class of observation: (e.g. ``dayCal|partnerCal|science``)
    Read Mode, ``READMODE``, Detector readout Mode (``Bright|Medium|Dark``)
    Reads, ``LNRS``,   Number of non-destructive reads
    Coadds, ``COADDS``, Number of array coadds
@@ -552,8 +552,8 @@ To select observations from a particular UT date, or between two
 
 .. code-block:: python
 
-   matching = obslog.query({'Date': '2018-01-01'})
-   matching = obslog.query({'Date': '2018-01-01:2018-01-03'})
+   matching = obslog.query({'Date': '20180101'})
+   matching = obslog.query({'Date': '20180101:20180103'})
 
 Finally, the ``first`` and ``last`` keywords can be used to select the
 first and last filenames, e.g.,
@@ -583,7 +583,7 @@ be used to instantiate a new observation log, e.g.,
 
 .. code-block:: python
 
-   obslog_night1 = ObsLog(obslog.query({'Date': '2018-01-01'}))
+   obslog_night1 = ObsLog(obslog.query({'Date': '20180101'}))
 
 For queries that are more complicated than simple matching, the table
 itself is accessible as the ``table`` attribute of the log. For
