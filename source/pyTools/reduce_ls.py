@@ -80,21 +80,6 @@ def get_pars(*tasks):
         pkg = pkg_dict.get(task[:2], onedspec)
         getattr(getattr(pkg, task), 'unlearn')()
     return [pars[task] for task in tasks]
-
-def apply_fitcoords(infile, telFile, database):
-    # Copy header keywords from one frame to another
-    gemtools.gemhedit.upfile = ''
-    gemtools.gemhedit(infile+'[0]', 'NSFITCOO', 'N/A',
-                      'UT Time stamp for NSFITCOORDS')
-    os.rename(infile+'.fits', 'f'+infile+'.fits')
-    infile = 'f'+infile+'[SCI]'
-    gemtools.gemhedit(infile, 'FCDB', database, '')
-    gemtools.gemhedit(infile, 'FCFIT1','f'+telFile+'_SCI_1_lamp', '')
-    gemtools.gemhedit(infile, 'FCX1', 1, '')
-    images.imutil.imgets(infile, 'naxis1')
-    nx = images.imutil.imgets.value
-    gemtools.gemhedit(infile, 'FCX2', nx, '')
-    gemtools.gemhedit(infile, 'FCNX', nx, '')
 #----------------------------------------------------------------------
 #---- DON'T EDIT ABOVE THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING ----
 #----------------------------------------------------------------------
@@ -288,9 +273,8 @@ def reduceScience(sci_dict):
         gnirs.nsreduce(filelist('dp', sciFiles), flatimage=flatFile, **pars)
         gnirs.nscombine(filelist('rdp', sciFiles), output=outfile, **combPars)
 
-        #gnirs.nsfitcoords(outfile, lamptransf=arcFile, **nsfitcrdPars)
-        apply_fitcoords(outfile, telFile, fitcooPars['database'])
-        gnirs.nstransform('f'+outfile, **transPars)
+        gnirs.nsfitcoords(outfile, lamptransf=arcFile, **fitcooPars)
+        gnirs.nstransform('f'+outfile, reference='xtf'+telFile, **transPars)
 
         # Pull in any additional parameters from config (e.g., trace)
         pars = merge_dicts(extrPars, config[outfile].get('nsextract', {}))
