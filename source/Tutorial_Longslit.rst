@@ -298,8 +298,10 @@ the final data products.
 .. figure:: /_static/MCflats_resp.*
    :width: 100 %
 
-   Fit to the response function of the JH (*left*) and HK (*right*) combined flat-field. A ``spline3`` function of order 20 and 26, respectively, was used to create these normalized **Flat-field MasterCals**.
-   Click image to enlarge. 
+   Fit to the response function of the JH (*left*) and HK (*right*)
+   combined flat-field. A ``spline3`` function of order 20 and 26,
+   respectively, was used to create these normalized
+   **Flat-field MasterCals**. Click image to enlarge.
 
 
 .. _ls-arcs:
@@ -525,6 +527,13 @@ wavelength direction. It may be necessary to delete points at each end
 signal-to-noise ratio is low, to ensure that the trace is not pulled
 off course.
 
+Having extracted the spectrum, you may wish to edit it to remove
+strong absorption features intrinsic to the standard, since these
+will appear as emission features in the telluric-corrected science
+spectra. If you do this using the **splot** task in IRAF then, in order
+to save the output, you will need to write the image to
+``filename.fits[sci,1,overwrite]``.
+
 
 .. _ls-science:
 
@@ -560,9 +569,8 @@ to use this method of alignment.
            pars = merge_dicts(redPars, config[outfile].get('nsreduce', {}))
            gnirs.nsreduce(filelist('dp', sciFiles), flatimage=flatFile, **pars)
            gnirs.nscombine(filelist('rdp', sciFiles), output=outfile, **combPars)
-           #gnirs.nsfitcoords(outfile, lamptransf=arcFile, **nsfitcrdPars)
-           apply_fitcoords(outfile, telFile, fitcooPars['database'])
-           gnirs.nstransform('f'+outfile, **transPars)
+           gnirs.nsfitcoords(outfile, lamptransf=arcFile, **nsfitcrdPars)
+           gnirs.nstransform('f'+outfile, reference='xtf'+telFile, **transPars)
            pars = merge_dicts(extrPars, config[outfile].get('nsextract', {}))
            gnirs.nsextract('tf'+outfile, **pars)
            gnirs.nstelluric('xtf'+outfile, 'xtf'+telFile, **telPars)
@@ -571,12 +579,10 @@ to use this method of alignment.
 
 To provide the best correction or atmospheric absorption features, it
 is important that the wavelength solutions of your science target and
-telluric standard are identical. Rather than re-running
-**nsfitcoords** and remembering to use exactly the same parameters as
-you used for the standard, the tutorial code includes a python
-function, called ``apply_fitcoords()`` that adds the necessary header
-keywords to the science image, allowing **nstransform** to be run with
-the same solution.
+telluric standard are identical, so the extracted spectrum of the
+standard is passed to **nstransform** as a reference file so that the
+transformed science spectrum has the same dispersion. This is a new
+feature added to the **nstransform** task.
 
 Once again, **nsextract** is used to produce a one-dimensional
 spectrum, and target-specific parameters can be provided in the target
@@ -592,6 +598,14 @@ the filename of a previously-extracted spectrum with a higher
 signal-to-noise ratio and that spectrum's trace will be used to
 extract the target.
 
+Users often report difficulty getting **nstelluric** to produce good
+results, so it may make sense to reduce your science data with the call
+to this task commented out so that step is not performed. You can then
+try running it and, if you're not happy with the results, delete the
+output and try again without having to execute all the previous
+reduction steps.
+
+.. _flux-cal:
 
 Flux calibration
 ----------------
@@ -646,5 +660,5 @@ ways:
    fluxCalibrate('science', 'HD36636', teff=6680, hmag=8.633)
 
 A magnitude need not be specified if a flux-calibrated spectrum is
-used, but any of ``jmag``, ``hmag``, or ``kmag`` can be provided, as
-long as the spectrum covers that bandpass.
+used, but any of ``jmag``, ``hmag``, or ``kmag`` (Vega magnitudes)
+can be provided, as long as the spectrum covers that bandpass.
