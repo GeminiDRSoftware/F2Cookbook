@@ -11,25 +11,34 @@ modes offered by F2, and it may not be easy for the correct calibrations
 to be automatically associated with your data. You are reminded that it
 is possible to create or modify the reduction dictionaries as described in
 :ref:`python-dicts` and this may provide the simplest route to a
-successful data reduction experience.
+successful data reduction experience, rather than using the automated
+selection functions described in this tutorial.
 
 As a further reminder, the reduction script should be run in segments,
 only uncommenting the two or three lines needed to perform each of the
-following steps during each execution of the script.
+following steps during each execution of the script, and the results
+should be inspected after each step.
+
+The data in this tutorial comprise J and K-band spectra of the Galactic
+star-forming region S5, taken as part of the MOS science verification (SV)
+program.
 
 Retrieving the Data
 -------------------
 
-The data in this tutorial comprise J and K-band spectra of the star-forming
-region S5, taken as part of the MOS science verification (SV) program.
+The first step is to retrieve the data from the Gemini Observatory
+Archive (see :ref:`archive-search`). To download the data for this tutorial,
+the following URL should be pasted into your browser:
 
 https://archive.gemini.edu/searchform/cols=CTOWEQ/GS-2019A-SV-201/notengineering/20190701-20190809/NotFail
 
 Click the button at the bottom of the page labeled "Download all 309 files
-totalling 1.03 GB". The program includes some daytime flatfields taken through the slit mask but
+totalling 1.03 GB". These files should be extracted to a subdirectory of
+the location you wish to do your reduction, named ``raw``.
+The program includes some daytime flatfields taken through the slit mask but
 the F2 instrument team has decided that nighttime flats should be used in the
 reduction, so these files are surplus to requirements and can therefore
-be deleted.
+be deleted, together with a few other extraneous files.
 
 .. code-block:: bash
 
@@ -41,7 +50,7 @@ be deleted.
 
 As this is an SV program, it includes most of the required
 calibrations; however, it lacks proximate 80-second darks for the J-band
-telluric, and 7-second darks for the K-band MOS flats (the 9-second darks
+telluric standard, and 7-second darks for the K-band MOS flats (the 9-second darks
 are too bright and in the highly non-linear regime). These can be obtained
 by clicking on "Load Associated Calibrations" and selecting the sets of darks
 indicated by an asterisk in the table below.
@@ -83,8 +92,8 @@ Exposure Summary
    S20190809S0112     , Arc            ,  K,    80,       1
    S20190809S0113     , Flat           ,  K,    80,       1
    S20190809S0114-0121, S5,               K,   300,       8
-   S20190809S0122-0125, Flat           ,  K,     7,       5
-   S20190809S0126     , Flat           ,  K,     9,       5
+   S20190809S0122-0125, Flat           ,  K,     7,       4
+   S20190809S0126     , Flat           ,  K,     9,       1
    S20190809S0127     , Arc            ,  K,    80,       1
    S20190809S0128     , Flat           ,  K,    80,       1
    S20190809S0232-0240, Dark,              ,     2,       9
@@ -111,6 +120,13 @@ configuration files.
 
 * Download: :download:`reduce_mos.py <pyTools/reduce_mos.py>`
 
+Configuration files are required for the IRAF task parameters that
+differ from the defaults, and to provide the script with information
+about the targets.
+
+* Download IRAF task parameters: :download:`mosTaskPars.yml <pyTools/mosTaskPars.yml>`
+* Download target information: :download:`mosTargets.yml <pyTools/mosTargets.yml>`
+
 
 .. _mos-target-config:
 
@@ -121,39 +137,67 @@ Target configuration file
 
    # Attributes of observed targets for the 2019-Aug observing run.
    #
-   HD152602:
+   HD152602K:
        Object:    HD 152602
+       first:     S20190809S0083
        arc:       arc_S20190809S0098
-       first:     S20190809S0082
+       Filter:    K-long
 
-   GJ754:
-       Object:    GJ 754.1 A
-       arc:       arc_S20190810S0314
+   HD152602J:
+       first:     S20190701S0060
+       last:      S20190701S0063
+       arc:       arc_S20190701S0071
 
-   S5_aug09:
+   S5_K:
        Object:    S5
-       Date:      "2019-08-09"
+       Date:      20190809
        arc:       arc_S20190809S0127
        flat:      flat_S20190809S0122_0125
-       telluric:  HD152602
+       telluric:  HD152602K
 
-   S5_aug10:
-       Object:    S5
-       Date:      "2019-08-10"
-       arc:       arc_S20190810S0271
-       flat:      flat_S20190810S0266_0270
-       telluric:  GJ754
+   S5_J1:
+       first:     S20190701S0082
+       last:      S20190701S0089
+       arc:       arc_S20190701S0081
+       flat:      flat_S20190701S0080
+       telluric:  HD152602J
 
-   S5_aug10_alt:
-       Object:    S5
-       Date:      "2019-08-10"
-       arc:       arc_S20190810S0294
-       flat:      flat_S20190810S0289_0293
-       telluric:  GJ754
+   S5_J2:
+       first:     S20190701S0092
+       last:      S20190701S0099
+       arc:       arc_S20190701S0091
+       flat:      flat_S20190701S0090
+       telluric:  HD152602J
 
 
 Configuration of nsreduce
 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+he **nsreduce** task has several parameters; the table below lists
+the defaults for the processing flags --- i.e., the parameters with
+logical values to indicate whether to perform an operation. Since
+each task is unlearned before being run, only parameters that differ
+from the defaults need to be specified in the ``mosTaskPars.yml``
+file.
+
+.. csv-table:: **nsreduce Processing Flag Defaults**
+   :header: "Flag", "Default", "Description"
+   :widths: 12, 8, 50
+
+   ``fl_cut``,         Yes, Cut images using F2CUT?
+   ``fl_process_cut``, Yes, Cut the data before processing?
+   ``fl_nsappwave``,   Yes, Insert approximate wavelength WCS keywords into header?
+   ``fl_dark``,         No, Subtract dark image?
+   ``fl_save_dark``,    No, Save processed dark files?
+   ``fl_sky``,          No, Perform sky subtraction using skyimages?
+   ``fl_flat``,        Yes, Apply flat-field correction?
+   ``fl_vardq``,       Yes, Propagate VAR and DQ?
+
+The parameter values need to be chosen carefully, as the order of
+operations performed by the task is not consistent with the order
+adopted in this tutorial.  This means **nsreduce** will be invoked
+multiple times, with different flag settings, to accomplish the
+processing steps in the needed order.
 
 
 .. _mos-darks:
@@ -175,14 +219,15 @@ subsequent files require a dark, the filename of the dark will be
 constructed assuming it was taken on the same date. As the exposure
 summary table indicates, there are no darks taken on 20190701, while
 there are no other observations taken on 20190702, so the simplest
-solution here is sim`ply to write the darks to disk with filenames
-including ``20190701` rather than ``20190702``, so that is done in the
+solution here is simply to write the darks to disk with filenames
+including ``20190701`` rather than ``20190702``, so that is done in the
 script.
 
 A helper function, ``check_cals()``, is provided to confirm that all
-the necessary calibration files in a reduction dictionary can be
-found in the current directory. If any are missing, their names
-will be reported and the script will exit.
+the necessary calibration files in a reduction dictionary exist in
+the current directory. If any are missing, their names
+will be reported and the script will exit. It is suggested that this
+function always be called immediately before any reduction step.
 
 
 .. _mos-flats:
@@ -194,7 +239,8 @@ The dataset includes both longslit flats, which are used to reduce the
 telluric standard, and MOS flats taken through the slit mask, which
 are used to reduce the science data.
 
-The ``selectFlats()`` function returns **two** dict objects, one for the
+Since the reduction steps for each type of flat are different,
+the ``selectFlats()`` function returns **two** dict objects, one for the
 longslit flats, and one for the MOS flats, which are identified from the
 name of the slit mask in the header. It attempts to provide sensible
 default behavior, but you are advised to check its output to understand how
@@ -253,7 +299,7 @@ will be created from only one of these combinations; this will be the last
 one encountered which will not be reproducible from run to run given the
 unordered nature of python ``dict`` structures. Therefore you should deselect
 the ``use_me`` flag for all but one such combination, or edit the code to
-produce a unique filename for each combination. See `ref`:ls-flats for more
+produce a unique filename for each combination. See :ref:`ls-flats` for more
 details.
 
 Here we have two longslit K-band flats, one each on the nights of August 9
@@ -267,7 +313,7 @@ with different filenames.
 MOS flatfields
 ^^^^^^^^^^^^^^
 MOS flatfields are taken in batches before and after the science observations,
-and each batch is reduced separately, and given a unique name based on the
+and each batch is reduced separately and given a unique name based on the
 start and end observation filenames.
 
 .. code-block:: python
@@ -338,7 +384,8 @@ from the reduction dict. At this time, it is worth considering whether you
 wish to reduce all the flatfields; for example, three flats are taken on
 July 1 to support the J-band observations of the target. There's no harm in
 reducing all of these but, if you choose to fit them interactively,
-it will take some time.
+it will take some time. Uncomment the lines indicated in the ``reduce_mos.py``
+script.
 
 The individual slit spectra are extracted over the full range of the
 wavelength coverage and therefore warnings will appear that the "DQ for flat
@@ -401,13 +448,15 @@ However, both dictionaries are reduced by the same function, ``reduceArcs()``.
        return ls_arc_dict, mos_arc_dict
 
 
-The wavelength calibration at longer wavelengths is often more successful
+The wavelength calibration in the K-band is often more successful
 if the thermal continuum emission is subtracted from the arc lamp spectrum.
 Such exposures are taken as lamp-off *flats*, but should be treated as if
 they are *darks*. The ``selectArcs()`` function tries to deal with this by
 looking for a flat with the same exposure time and setting as each arc and
 a sequence number that differs only by one, indicating it was taken either
 immediately before or immediately after the arc.
+If your data do not follow this pattern, you may need to manually assign
+an appropriate exposure if there is no suitable ``MCdark`` file.
 
 .. code-block:: python
 
@@ -456,7 +505,8 @@ immediately before or immediately after the arc.
 Longslit arcs
 ^^^^^^^^^^^^^
 
-Longslit arcs are reduced in the manner described in :ref:`ls_arcs`.
+Longslit arcs are reduced in the manner described in :ref:`ls-arcs`.
+See that section for more details.
 
 MOS arcs
 ^^^^^^^^
@@ -476,8 +526,9 @@ the solution for columns on either side as the arc lines are traced
 outward towards the edges of each slit. You can happily answer 'NO' to this
 second question but the initial wavelength solutions should always be
 determined interactively in case one or more of the slits fails to produce
-the correct solution. In this tutorial, three MOS arcs are reduced and only
-slit 22 of ``S20190701S0081`` fails to produce the correct solution.
+the correct solution. In this tutorial, 103 slits from three MOS arcs
+are reduced and only slit 22 of ``S20190701S0081`` fails to produce the
+correct solution automatically.
 
 .. _mos-telluric:
 
@@ -512,13 +563,15 @@ in the science data. Alternatively, this parameter can be set to zero and each
 spectrum in the science data will be processed separately, but this is not
 advised unless you have a high signal-to-noise ratio in all your spectra.
 
-In addition to the standard ``reduceScience()`` function, there is a function called
+In addition to the standard ``reduceScience()`` function used in this tutorial,
+there is a function called
 ``reduceABBAScience()``. This is suitable for observations were the telescope is
-nodded between only two positions, and follows a slightly different reduction
+nodded between only two positions (either both within the slit or one being an
+offset to sky), and follows a slightly different reduction
 procedure that may produce better results. It stacks each set of images before
 subtracting one set from the other and then transforming the slits. If the two
 telescope positions are close together on the sky, then the two stacks are
-aligned and added together. This has not been extensively tested.
+subsequently aligned and added together. This has not been extensively tested.
 
 Flux calibration
 ----------------
@@ -547,6 +600,7 @@ The spectral resolution of F2 varies across the image, which can result in a poo
 telluric correction for those MOS spectra whose resolution differs most greatly
 from the longslit telluric standard. If this is likely to cause problems, the
 telluric can be nodded along the full length of the longslit (as has been done
-here) and separate groups combined to produce multiple spectra. The science data
+here) and separate groups combined to produce multiple spectra (which is not
+done here). The science data
 can then be telluric-corrected with each of these and the best output spectrum
 chosen on a slit-by-slit basis.

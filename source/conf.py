@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Flamingos-2 Data Reduction Cookbook'
-copyright = u'2018, Gemini Observatory'
+copyright = u'2020, Gemini Observatory'
 author = u'Richard Shaw and Chris Simpson'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -63,7 +63,7 @@ author = u'Richard Shaw and Chris Simpson'
 # built documents.
 #
 # The short X.Y version.
-version = u'1.1.1'
+version = u'1.2.0'
 # The full version, including alpha/beta/rc tags.
 release = version + u' '
 
@@ -76,7 +76,7 @@ language = None
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
-today = '2018-Mar-12'
+today = '2020-Mar-11'
 # Else, today_fmt is used as the format for a strftime call.
 # today_fmt = '%B %d, %Y'
 

@@ -182,8 +182,7 @@ logical values to indicate whether to perform an operation.
    :widths: 12, 8, 50
 
    ``fl_cut``,         Yes, Cut images using F2CUT?
-   ``fl_corner``,      Yes, Set the science arrays to zero?
-   ``fl_process_cut``, Yes, Should cutting be performed before or after processing?
+   ``fl_process_cut``, Yes, Cut the data before processing?
    ``fl_nsappwave``,   Yes, Insert approximate wavelength WCS keywords into header?
    ``fl_dark``,         No, Subtract dark image?
    ``fl_save_dark``,    No, Save processed dark files?

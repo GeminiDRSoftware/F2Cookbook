@@ -601,12 +601,14 @@ def reduce_mos():
     reduceDarks(dark_dict)
 
     ls_flat_dict, mos_flat_dict = selectFlats(obslog)
-    # Here's how to edit entries in a reduction dictionary
-    mos_flat_dict['flat_S20190809S0122_0125']['dark'] = 'MCdark_20190811_7'
-    del mos_flat_dict['flat_S20190809S0107_0111']  # too bright
-    del mos_flat_dict['flat_S20190809S0126']       # too bright
-    del mos_flat_dict['flat_S20190702S0693']       # not required
     reduceLSFlats(ls_flat_dict)
+    # Here's how to edit entries in a reduction dictionary
+    # Uncomment these lines to fix the crash
+    # (see Section 6.4.2 of the Cookbook)
+    #mos_flat_dict['flat_S20190809S0122_0125']['dark'] = 'MCdark_20190811_7'
+    #del mos_flat_dict['flat_S20190809S0107_0111']  # too bright
+    #del mos_flat_dict['flat_S20190809S0126']       # too bright
+    #del mos_flat_dict['flat_S20190702S0693']       # not required
     check_cals(mos_flat_dict)
     reduceMOSFlats(mos_flat_dict)
     
