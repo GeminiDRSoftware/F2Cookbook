@@ -499,7 +499,7 @@ definition at the top of the python script.
    Decker, ``DECKER``, Decker position
    GCAL Shutter, ``GCALSHUT``, Position of GCAL shutter (``OPEN|CLOSED``)
    PA, ``PA``, Position angle of instrument
-   Wavelength, ``GRWLEN``, Grating approximate central wavelength (:math:`\mu`m)
+   Wavelength, ``GRWLEN``, Grating approximate central wavelength (:math:`\mu`\ m)
    Airmass, ``AIRMASS``, Airmass at time of observation
 
 

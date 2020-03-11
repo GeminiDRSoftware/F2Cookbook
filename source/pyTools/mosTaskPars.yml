@@ -1,0 +1,113 @@
+# IRAF task parameters and initial values
+# <irafTaskDictName>:
+#     <parameterName>: <parameterValue>
+f2cut:
+    logfile: f2cutLog.txt
+
+f2prepare:
+    rawpath: ./raw
+    outprefix: p
+    fl_addmdf: 'yes'
+    mdfdir: ./raw/
+    fl_correct: 'yes'
+    logfile: f2prepLog.txt
+
+gemarith:
+    fl_vardq: 'yes'
+    logfile: gemarithLog.txt
+
+gemcombine: 
+    fl_vardq: 'yes'
+    logfile: gemcombLog.txt
+
+nscombine:
+    fl_keepshift: 'yes'
+    boundary: constant
+    logfile: nscombLog.txt
+
+nsextract:
+    database: 'database'
+    line: 450
+    nsum: 20
+    fl_inter: 'no'
+    fl_apall: 'yes'
+    fl_trace: 'yes'
+    tr_nsum: 20
+    tr_step: 20
+    tr_nlost: 3
+    tr_function: spline3
+    tr_order: 2
+    trace: ''
+    logfile: nsextrLog.txt
+
+nsfitcoords:
+    database: 'database'
+    fl_inter: 'no'
+    lxorder: 4
+    lyorder: 5
+    sxorder: 2
+    syorder: 4
+    logfile: nsfitcrdLog.txt
+
+nsflat:
+    fl_inter: 'yes'
+    order: -1
+    thr_flo: 0.1
+    thr_fup: 3.0
+    database: ''
+    logfile: nsflatLog.txt
+
+nsheaders:
+    instrument: f2
+    logfile: nsheadLog.txt
+
+nsreduce:
+    fl_cut: 'yes'
+    fl_dark: 'no'
+    fl_sky: 'no'
+    fl_flat: 'yes'
+    database: 'database'
+    skyrange: INDEF
+    nodsize: 3.
+    logfile: nsreduceLog.txt
+
+nssdist:
+    nsum: 2
+    fwidth: 4
+    cradius: 5
+    minsep: 2
+    fl_inter: no
+    logfile: nssdistLog.txt
+
+nstransform:
+    database: 'database'
+    logfile: nstransLog.txt
+
+nstelluric:
+    threshold: 0.01
+    ifuextn: 16
+    fl_inter: 'yes'
+    database: 'database'
+    logfile: nstelluricLog.txt
+
+nswavelength:
+    database: 'database'
+    coordlist: gnirs$data/lowresargon.dat
+    fl_inter: 'yes'
+    nsum: 10
+    threshold: 2000
+    function: chebyshev
+    order: 3
+    cradius: 7
+    match: -6
+    refit: 'yes'
+    step: 10
+    logfile: nswaveLog.txt
+
+continuum:
+    type: fit
+    function: spline3
+    order: 5
+    low_reject: 2
+    high_reject: 2
+...

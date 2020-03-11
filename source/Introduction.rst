@@ -24,6 +24,10 @@ understanding will be helpful: due to the rather awkward way in which
 PyRAF acts as an interface between python and IRAF, the tutorial
 scripts are not the best learning material.
 
+Citations to this *Cookbook* should read:
+
+   Shaw, R. A., Simpson, C. 2020, *FLAMINGOS-2 Data Reduction Cookbook* (Version |version|; Hilo, HI: Gemini Observatory)
+
 .. _software-setup:
 
 Software Environment
