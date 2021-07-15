@@ -30,11 +30,14 @@ The first step is to retrieve the data from the Gemini Observatory
 Archive (see :ref:`archive-search`). To download the data for this tutorial,
 the following URL should be pasted into your browser:
 
-https://archive.gemini.edu/searchform/cols=CTOWEQ/GS-2019A-SV-201/notengineering/20190701-20190809/NotFail
+https://archive.gemini.edu/searchform/cols=CTOWEQ/GS-2019A-SV-201/notengineering/20190701-20190810/NotFail
 
 Click the button at the bottom of the page labeled "Download all 309 files
-totalling 1.03 GB". These files should be extracted to a subdirectory of
-the location you wish to do your reduction, named ``raw``.
+totalling 1.03 GB". To ease the reduction, it makes sense to separate the
+July (J-band) and August (K-band) datasets, so you should make two separate
+directories (called ``J`` and ``K``, or ``July`` and ``August``, for example)
+and create subdirectories named ``raw`` in each of these. The raw FITS files
+should be extracted by unzipping the downloaded zip file and then separated.
 The program includes some daytime flatfields taken through the slit mask but
 the F2 instrument team has decided that nighttime flats should be used in the
 reduction, so these files are surplus to requirements and can therefore
@@ -42,10 +45,10 @@ be deleted, together with a few other extraneous files.
 
 .. code-block:: bash
 
-   rm S20190701S005*
-   rm S20190703S*
-   rm S20190707S*
-   rm S20190810S*
+   rm July/raw/S20190701S005*
+   rm July/raw/S20190703S*
+   rm July/raw/S20190707S*
+   rm August/S20190810S*
 
 
 As this is an SV program, it includes most of the required
@@ -54,8 +57,6 @@ telluric standard, and 7-second darks for the K-band MOS flats (the 9-second dar
 are too bright and in the highly non-linear regime). These can be obtained
 by clicking on "Load Associated Calibrations" and selecting the sets of darks
 indicated by an asterisk in the table below.
-
-**The MOS mask isn't retrieved**
 
 
 Exposure Summary
@@ -108,12 +109,15 @@ Preparation
 -----------
 
 First download :download:`obslog.py <pyTools/obslog.py>` to the
-``raw`` subdirectory and create an observing log, as described in
+``July/raw`` subdirectory and create an observing log, as described in
 :ref:`observing-log`.
 
 .. code-block:: bash
 
    python obslog.py obslog.fits
+
+Copy the ``obslog.py`` file to the ``August/raw`` directory and run the
+same command there to produce an observing log for August.
 
 The other files needed for this tutorial are a python script and two
 configuration files.
@@ -125,35 +129,36 @@ differ from the defaults, and to provide the script with information
 about the targets.
 
 * Download IRAF task parameters: :download:`mosTaskPars.yml <pyTools/mosTaskPars.yml>`
-* Download target information: :download:`mosTargets.yml <pyTools/mosTargets.yml>`
+* Download target information: :download:`mosTargets_July.yml <pyTools/mosTargets.yml>`
+  :download:`mosTargets_August.yml <pyTools/mosTargets_August.yml>`
+
+Identical copies of the ``reduce_mos.py`` and `mosTaskPars.yml`` files should
+be placed in each of the ``July`` and ``August`` directories, while the two
+files with target information should be placed in the relevant directories and
+both renamed simply to ``mosTargets.yml``.
+
+.. code-block:: bash
+
+   mv mosTargets_July.yml July/mosTargets.yml
+   mv mosTargets_August.yml August/mosTargets.yml
 
 
 .. _mos-target-config:
 
-Target configuration file
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Target configuration files
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We need two two target configuration files, one for July/J and one
+for August/K, which look like this:
 
 .. code-block:: none
 
-   # Attributes of observed targets for the 2019-Aug observing run.
+   # Attributes of observed targets for the 2019-Jul observing run.
    #
-   HD152602K:
-       Object:    HD 152602
-       first:     S20190809S0083
-       arc:       arc_S20190809S0098
-       Filter:    K-long
-
    HD152602J:
        first:     S20190701S0060
        last:      S20190701S0063
        arc:       arc_S20190701S0071
-
-   S5_K:
-       Object:    S5
-       Date:      20190809
-       arc:       arc_S20190809S0127
-       flat:      flat_S20190809S0122_0125
-       telluric:  HD152602K
 
    S5_J1:
        first:     S20190701S0082
@@ -168,6 +173,25 @@ Target configuration file
        arc:       arc_S20190701S0091
        flat:      flat_S20190701S0090
        telluric:  HD152602J
+
+
+.. code-block:: none
+
+   # Attributes of observed targets for the 2019-Aug observing run.
+   #
+   HD152602K:
+       Object:    HD 152602
+       first:     S20190809S0083
+       arc:       arc_S20190809S0098
+       Filter:    K-long
+
+   S5_K:
+       Object:    S5
+       Date:      20190809
+       arc:       arc_S20190809S0127
+       flat:      flat_S20190809S0122_0125
+       telluric:  HD152602K
+
 
 
 Configuration of nsreduce
@@ -209,19 +233,6 @@ Since dark frames are the same irrespective of whether they are used
 for imaging or spectroscopic observations, the procedure for reducing
 them is identical to that described in the Imaging Tutorials' section
 on :ref:`img-darks`.
-
-Since we don't want to mix darks from the July and August runs,
-for this dataset it is recommended to produce the master calibrations
-with the ``nightly_darks()`` function. This will produce a large number
-of master calibration files by producing separate darks for each
-night of observation, and including this date in the filename. When
-subsequent files require a dark, the filename of the dark will be
-constructed assuming it was taken on the same date. As the exposure
-summary table indicates, there are no darks taken on 20190701, while
-there are no other observations taken on 20190702, so the simplest
-solution here is simply to write the darks to disk with filenames
-including ``20190701`` rather than ``20190702``, so that is done in the
-script.
 
 A helper function, ``check_cals()``, is provided to confirm that all
 the necessary calibration files in a reduction dictionary exist in
@@ -417,8 +428,7 @@ However, both dictionaries are reduced by the same function, ``reduceArcs()``.
        # Do not stack arcs; reduce each separately
        for f in arcFiles:
            t, grism, mask, filt = obslog[f][params]
-           date = obslog[f]['Date']
-           file_dict = {'dark': 'MCdark_'+date+'_'+str(int(t)),
+           file_dict = {'dark': 'MCdark_'+str(int(t)),
                         'bpm': 'MCbpm_{}_{}'.format(grism, filt),
                         'input': [f]}
            outfile = 'arc_'+f
@@ -427,7 +437,7 @@ However, both dictionaries are reduced by the same function, ``reduceArcs()``.
                                                'GCAL Shutter': 'CLOSED',
                                                'Texp': t})
            for flat in possible_flats:
-               if flat[:10] == f[:10] and abs(int(flat[10:])-int(f[10:]) == 1):
+               if flat[:10] == f[:10] and abs(int(flat[10:])-int(f[10:])) == 1:
                    file_dict['dark'] = flat
                    break
 

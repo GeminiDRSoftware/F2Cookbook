@@ -1,0 +1,14 @@
+# Attributes of observed targets for the 2019-Aug observing run.
+#
+HD152602K:
+    Object:    HD 152602
+    first:     S20190809S0083
+    arc:       arc_S20190809S0098
+    Filter:    K-long
+
+S5_K:
+    Object:    S5
+    Date:      20190809
+    arc:       arc_S20190809S0127
+    flat:      flat_S20190809S0122_0125
+    telluric:  HD152602K

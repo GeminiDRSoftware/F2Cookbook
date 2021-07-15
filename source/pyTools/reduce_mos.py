@@ -130,20 +130,6 @@ def check_cals(input_dict):
 #----------------------------------------------------------------------
 
 #----------------------- DARKS: See Section 6.3 -----------------------
-def nightlyDarks(obslog):
-    dark_dict = {}
-    qd = {'ObsType': 'DARK'}
-    configs = unique(obslog.query(qd)['Date', 'Texp'])
-    for (date, t) in configs:
-        darkFiles = obslog.file_query(merge_dicts(qd, {'Date': date,
-                                                       'Texp': t}))
-        # See Section 5.3 for details
-        if date == '20190702':
-            date = '20190701'
-        outfile = 'MCdark_'+date+'_'+str(int(t))
-        dark_dict[outfile] = {'input': darkFiles}
-    return dark_dict
-
 def selectDarks(obslog):
     # Make a dict: key=output dark file; value=input files
     dark_dict = {}
@@ -282,7 +268,7 @@ def selectArcs(obslog):
                                             'GCAL Shutter': 'CLOSED',
                                             'Texp': t})
         for flat in possible_flats:
-            if flat[:10] == f[:10] and abs(int(flat[10:])-int(f[10:]) == 1):
+            if flat[:10] == f[:10] and abs(int(flat[10:])-int(f[10:])) == 1:
                 file_dict['dark'] = flat
                 break
 
@@ -596,8 +582,7 @@ def reduce_mos():
 
     gnirs.nsheaders('f2')
 
-    dark_dict = nightlyDarks(obslog)
-    #dark_dict = selectDarks(obslog)
+    dark_dict = selectDarks(obslog)
     reduceDarks(dark_dict)
 
     ls_flat_dict, mos_flat_dict = selectFlats(obslog)
