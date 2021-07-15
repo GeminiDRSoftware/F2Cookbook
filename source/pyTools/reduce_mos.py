@@ -602,7 +602,8 @@ def reduce_mos():
     reduceArcs(mos_arc_dict)
 
     std_dict, sci_dict = selectTargets(obslog)
-    std_dict['HD152602J']['dark'] = 'MCdark_20190706_80'
+    if "HD152602J" in std_dict:
+        std_dict['HD152602J']['dark'] = 'MCdark_80'
     reduceStandards(std_dict)
     reduceScience(sci_dict)
     # If you want to call nstelluric separately
