@@ -72,7 +72,7 @@ def merge_dicts(dict1, dict2, allow_new=True):
 def get_pars(*tasks):
     # Unlearn tasks and read parameters from yaml file, returning dicts
     with open('imgTaskPars.yml', 'r') as yf:
-        pars = yaml.load(yf)
+        pars = yaml.safe_load(yf)
     pkg_dict = {'f2': f2, 'ni': niri, 'ge': gemtools}
     for task in tasks:
         pkg = pkg_dict.get(task[:2], iraf)
@@ -194,7 +194,7 @@ def reduceFlats(flat_dict, gcal=True):
 def selectTargets(obslog):
     # Configuation file: see Section 4.2.1
     with open('imgTargets.yml', 'r') as yf:
-        targets = yaml.load(yf)
+        targets = yaml.safe_load(yf)
 
     sci_dict = {}
     qd = {'ObsClass': 'science'}

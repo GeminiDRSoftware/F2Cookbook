@@ -76,7 +76,7 @@ def merge_dicts(dict1, dict2, allow_new=True):
 def get_pars(*tasks):
     # Unlearn tasks and read parameters from yaml file, returning dicts
     with open('mosTaskPars.yml', 'r') as yf:
-        pars = yaml.load(yf)
+        pars = yaml.safe_load(yf)
     pkg_dict = {'f2': f2, 'ns': gnirs, 'ge': gemtools}
     for task in tasks:
         pkg = pkg_dict.get(task[:2], onedspec)
@@ -249,7 +249,7 @@ def reduceMOSFlats(flat_dict):
 #------------------------ ARCS: See Section 6.5 -----------------------
 def selectArcs(obslog):
     with open('mosTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     ls_arc_dict = {}
     mos_arc_dict = {}
@@ -333,7 +333,7 @@ def reduceArcs(arc_dict):
 def selectTargets(obslog):
     # Configuation file: see Section 5.2.1
     with open('mosTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     # key=output file; value=[dark, flat, bpm, arc, [input files]]
     std_dict = {}
@@ -369,7 +369,7 @@ def reduceStandards(std_dict):
 
     # Reopen configuation file for additional task parameters
     with open('mosTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     for outfile, file_dict in std_dict.items():
         darkFile = file_dict['dark']
@@ -400,7 +400,7 @@ def reduceScience(sci_dict):
 
     # Reopen configuation file for additional task parameters
     with open('mosTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     for outfile, file_dict in sci_dict.items():
         prepPars['bpm'] = file_dict['bpm']
@@ -446,7 +446,7 @@ def reduceABBAScience(sci_dict):
 
     # Reopen configuation file for additional task parameters
     with open('mosTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     for outfile, file_dict in sci_dict.items():
         prepPars['bpm'] = file_dict['bpm']

@@ -74,7 +74,7 @@ def merge_dicts(dict1, dict2, allow_new=True):
 def get_pars(*tasks):
     # Unlearn tasks and read parameters from yaml file, returning dicts
     with open('lsTaskPars.yml', 'r') as yf:
-        pars = yaml.load(yf)
+        pars = yaml.safe_load(yf)
     pkg_dict = {'f2': f2, 'ns': gnirs, 'ge': gemtools}
     for task in tasks:
         pkg = pkg_dict.get(task[:2], onedspec)
@@ -193,7 +193,7 @@ def reduceArcs(arc_dict):
 def selectTargets(obslog):
     # Configuation file: see Section 5.2.1
     with open('lsTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     std_dict = {}
     sci_dict = {}
@@ -223,7 +223,7 @@ def reduceStandards(std_dict):
 
     # Reopen configuation file for additional task parameters
     with open('lsTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     for outfile, file_dict in std_dict.items():
         darkFile = file_dict['dark']
@@ -255,7 +255,7 @@ def reduceScience(sci_dict):
 
     # Reopen configuation file for additional task parameters
     with open('lsTargets.yml', 'r') as yf:
-        config = yaml.load(yf)
+        config = yaml.safe_load(yf)
 
     for outfile, file_dict in sci_dict.items():
         darkFile = file_dict['dark']
