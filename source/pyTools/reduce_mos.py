@@ -282,7 +282,7 @@ def selectArcs(obslog):
                                             'GCAL Shutter': 'CLOSED',
                                             'Texp': t})
         for flat in possible_flats:
-            if flat[:10] == f[:10] and abs(int(flat[10:])-int(f[10:]) == 1):
+            if flat[:10] == f[:10] and abs(int(flat[10:])-int(f[10:])) == 1:
                 file_dict['dark'] = flat
                 break
 
