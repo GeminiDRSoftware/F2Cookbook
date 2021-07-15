@@ -518,10 +518,12 @@ shouldn't matter, as they should be very similar, but it is probably worth
 using each one in a separate reduction and comparing the results.
 
 Only the MOS arcs that are listed in the ``mosTargets.yml`` file will be
-reduced. Each slit has to be calibrated independently and, as with the
-longslit reduction, you will first be asked whether you wish to fit the
-wavelength solution for the middle column interactively and, once you are
-satisfied with that, you will be asked if you wish to interactively fit
+reduced. The reduction stars with cutting the separate slits and straightening
+them using the traces from the flatfield, which can take a little while. Once
+that has been completed, each slit has to be calibrated independently and,
+as with the longslit reduction, you will first be asked whether you wish to
+fit the wavelength solution for the middle column interactively and, once you
+are satisfied with that, you will be asked if you wish to interactively fit
 the solution for columns on either side as the arc lines are traced
 outward towards the edges of each slit. You can happily answer 'NO' to this
 second question but the initial wavelength solutions should always be
