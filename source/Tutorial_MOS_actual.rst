@@ -553,7 +553,8 @@ an arc. Even if you do not intend to perform a telluric correction, the telluric
 standard is required to define the output wavelength solution to which
 **nstransform** will resample each slit's spectrum. As with longslit reduction,
 it may be advantageous to reduce the science targets *without* running
-**nstelluric** so you will not have to repeat the reduction (which is quite slow)
+**nstelluric** (by commenting out this line in the ``reduceScience()`` function)
+so you will not have to repeat the reduction (which is quite slow)
 if the telluric correction is not as successful as you require.
 
 The same telluric correction will be applied to all spectra, so this should be
