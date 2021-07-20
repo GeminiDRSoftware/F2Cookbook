@@ -29,6 +29,7 @@ nsextract:
     database: 'database'
     line: 450
     nsum: 20
+    aptable: ''
     fl_inter: 'no'
     fl_apall: 'yes'
     fl_trace: 'yes'
@@ -76,6 +77,7 @@ nssdist:
     fwidth: 4
     cradius: 5
     minsep: 2
+    aptable: ''
     fl_inter: no
     logfile: nssdistLog.txt
 
