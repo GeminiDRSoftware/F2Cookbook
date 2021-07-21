@@ -237,7 +237,9 @@ on :ref:`img-darks`.
 A helper function, ``check_cals()``, is provided to confirm that all
 the necessary calibration files in a reduction dictionary exist in
 the current directory. If any are missing, their names
-will be reported and the script will exit. It is suggested that this
+will be reported and the script will exit immediately, rather than
+proceeding up to the point where the missing calibration is needed.
+It is suggested that this
 function always be called immediately before any reduction step.
 
 
@@ -273,7 +275,7 @@ frames require different darks.
            config_dict = dict(zip(params, config))
            flatFiles = sorted(obslog.file_query(merge_dicts(qd, config_dict)))
            # This format for MCdark files is suitable for nightly darks
-           file_dict = {'dark': 'MCdark_'+date+'_'+str(int(t)),
+           file_dict = {'dark': 'MCdark_'+str(int(t)),
                         'bpm': 'MCbpm_{}_{}.pl'.format(grism, filt)}
 
            if 'pix-slit' in mask:
@@ -378,20 +380,7 @@ the regions of the image corresponding to each slit) as this is not propagated
 by **nsflat**. This file (which is simply the un-normalized flatfield) is given
 the same name as the flatfield, with the prefix ``cut_``.
 
-Because of the complexity here, it is worth checking that all
-necessary calibrations exist before reducing the MOS flats, by calling
-``check_cals(mos_flat_dict)``. This reports that two darks cannot be found:
-
-.. code-block::
-
-   MCdark_20190809_7.fits does not exist (used for flat_S20190809S0122_0125)
-   MCdark_20190702_20.fits does not exist (used for flat_S20190702S0693)
-
-
-The first is most easily handled by editing the filename to use the 7-second
-dark taken on 20190811. The second one is required to calibration a dayCal
-flat that we have no need of, so the simplest solution is to remove that entry
-from the reduction dict. At this time, it is worth considering whether you
+At this time, it is worth considering whether you
 wish to reduce all the flatfields; for example, three flats are taken on
 July 1 to support the J-band observations of the target. There's no harm in
 reducing all of these but, if you choose to fit them interactively,
