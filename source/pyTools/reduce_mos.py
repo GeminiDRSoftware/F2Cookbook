@@ -587,13 +587,12 @@ def reduce_mos():
 
     ls_flat_dict, mos_flat_dict = selectFlats(obslog)
     reduceLSFlats(ls_flat_dict)
-    # Here's how to edit entries in a reduction dictionary
-    # Uncomment these lines to fix the crash
-    # (see Section 6.4.2 of the Cookbook)
-    #mos_flat_dict['flat_S20190809S0122_0125']['dark'] = 'MCdark_20190811_7'
+    # Here's how to remove entries in a reduction dictionary
     #del mos_flat_dict['flat_S20190809S0107_0111']  # too bright
     #del mos_flat_dict['flat_S20190809S0126']       # too bright
     #del mos_flat_dict['flat_S20190702S0693']       # not required
+    #del mos_flat_dict['flat_S20190701S0080']       # not required
+    #del mos_flat_dict['flat_S20190701S0100']       # not required
     check_cals(mos_flat_dict)
     reduceMOSFlats(mos_flat_dict)
     
@@ -602,8 +601,6 @@ def reduce_mos():
     reduceArcs(mos_arc_dict)
 
     std_dict, sci_dict = selectTargets(obslog)
-    if "HD152602J" in std_dict:
-        std_dict['HD152602J']['dark'] = 'MCdark_80'
     reduceStandards(std_dict)
     reduceScience(sci_dict)
     # If you want to call nstelluric separately
