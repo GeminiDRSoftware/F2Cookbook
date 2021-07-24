@@ -159,14 +159,14 @@ def selectFlats(obslog):
     ls_flat_dict = {}
     mos_flat_dict = {}
     qd = {'ObsType': 'FLAT', 'GCAL Shutter': 'OPEN'}
-    params = ('Texp', 'Disperser', 'Mask', 'Filter', 'Date')
+    params = ('Texp', 'Disperser', 'Mask', 'Filter')
     flatConfigs = unique(obslog.query(qd)[params])
     for config in flatConfigs:
-        t, grism, mask, filt, date = config
+        t, grism, mask, filt = config
         config_dict = dict(zip(params, config))
         flatFiles = sorted(obslog.file_query(merge_dicts(qd, config_dict)))
         # This format for MCdark files is suitable for nightly darks
-        file_dict = {'dark': 'MCdark_'+date+'_'+str(int(t)), 
+        file_dict = {'dark': 'MCdark_'+str(int(t)),
                      'bpm': 'MCbpm_{}_{}.pl'.format(grism, filt)}
 
         if 'pix-slit' in mask:
@@ -258,8 +258,7 @@ def selectArcs(obslog):
     # Do not stack arcs; reduce each separately
     for f in arcFiles:
         t, grism, mask, filt = obslog[f][params]
-        date = obslog[f]['Date']
-        file_dict = {'dark': 'MCdark_'+date+'_'+str(int(t)),
+        file_dict = {'dark': 'MCdark_'+str(int(t)),
                      'bpm': 'MCbpm_{}_{}'.format(grism, filt),
                      'input': [f]}
         outfile = 'arc_'+f
@@ -342,9 +341,9 @@ def selectTargets(obslog):
     qd = {'ObsType': 'OBJECT'}
     for outfile, pars in config.items():
         infiles = obslog.file_query(merge_dicts(qd, pars))
-        t, grism, filt, mask, date = obslog[infiles[0]]['Texp', 'Disperser',
-                                                        'Filter', 'Mask', 'Date']
-        file_dict = {'dark': pars.get('dark', 'MCdark_'+date+'_'+str(int(t))),
+        t, grism, filt, mask = obslog[infiles[0]]['Texp', 'Disperser',
+                                                  'Filter', 'Mask']
+        file_dict = {'dark': pars.get('dark', 'MCdark_'+str(int(t))),
                      'bpm': pars.get('bpm', 'MCbpm_{}_{}'.format(grism, filt)),
                      'flat': pars.get('flat', 'MCflat_{}_{}'.format(grism, filt)),
                      'arc': pars['arc'],
@@ -591,7 +590,6 @@ def reduce_mos():
     #del mos_flat_dict['flat_S20190809S0107_0111']  # too bright
     #del mos_flat_dict['flat_S20190809S0126']       # too bright
     #del mos_flat_dict['flat_S20190702S0693']       # not required
-    #del mos_flat_dict['flat_S20190701S0080']       # not required
     #del mos_flat_dict['flat_S20190701S0100']       # not required
     check_cals(mos_flat_dict)
     reduceMOSFlats(mos_flat_dict)
