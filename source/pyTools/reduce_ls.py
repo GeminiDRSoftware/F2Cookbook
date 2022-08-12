@@ -22,7 +22,8 @@ class ObsLog(object):
         # Load observation log and strip trailing spaces from string fields
         obslog = fname if isinstance(fname, Table) else Table.read(fname)
         obslog = obslog[obslog['use_me']]
-        obslog = obslog[obslog['Disperser'] != 'Open']
+        obslog = obslog[np.logical_or(obslog['Disperser'] != 'Open',
+                                      obslog['ObsType'] == 'DARK')]
         for col in obslog.colnames:
             try:
                 obslog[col] = [v.strip() for v in obslog[col]]

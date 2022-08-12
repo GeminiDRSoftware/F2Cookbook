@@ -4,7 +4,6 @@ import numpy as np
 from pyraf import iraf
 from pyraf.iraf import images, onedspec, gemini
 from pyraf.iraf import gemtools, gnirs, f2
-iraf.set(gembin='/astro/iraf/UR-v1.5.2/rhel5/variants/common/iraf/gemini/bin.linux/')
 from astropy.table import Table, Row, unique
 from astropy.io import fits
 #---------------------------------------------------------------------
@@ -23,7 +22,8 @@ class ObsLog(object):
         # Load observation log and strip trailing spaces from string fields
         obslog = fname if isinstance(fname, Table) else Table.read(fname)
         obslog = obslog[obslog['use_me']]
-        obslog = obslog[obslog['Disperser'] != 'Open']
+        obslog = obslog[np.logical_or(obslog['Disperser'] != 'Open',
+                                      obslog['ObsType'] == 'DARK')]
         for col in obslog.colnames:
             try:
                 obslog[col] = [v.strip() for v in obslog[col]]
