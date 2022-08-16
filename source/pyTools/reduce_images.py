@@ -116,7 +116,7 @@ def reduceDarks(dark_dict):
                                 **combPars)
         else:
             iraf.imrename('p'+darkFiles[0], outfile)
-    iraf.imdelete('pS*.fits')
+        iraf.imdelete('pS*.fits')
 
 #----------------------- FLATS: See Section 4.4 -----------------------
 def selectGcalFlats(obslog):
@@ -188,7 +188,7 @@ def reduceFlats(flat_dict, gcal=True):
                            'lampsoff': filelist('p', lampsOff),
                            'flatfile': outfile, 'bpmfile': bpmFile})
         niri.niflat(filelist('p', lampsOn), **flatPars)
-    iraf.imdelete('pS*.fits')
+        iraf.imdelete('pS*.fits')
 
 #---------------------- TARGETS: See Section 4.5 ----------------------
 def selectTargets(obslog):
