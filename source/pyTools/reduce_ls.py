@@ -183,7 +183,7 @@ def reduceArcs(arc_dict):
             redPars['fl_flat'] = 'no'
         gnirs.nsreduce(filelist('dp', arcFiles), **redPars)
         if len(arcFiles) > 1:
-            gemcombine(filelist('rdp', arcFiles), 'tmp_'+outfile, **arithPars)
+            gemtools.gemcombine(filelist('rdp', arcFiles), 'tmp_'+outfile, **arithPars)
             gnirs.nswavelength('tmp_'+outfile, outspectra=outfile, **wavePars)
         else:
             gnirs.nswavelength('rdp'+arcFiles[0], outspectra=outfile,
